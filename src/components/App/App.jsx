@@ -52,7 +52,6 @@ export class App extends Component {
       const { hits, total } = await getImages(value, page);
 
       if (total === 0) this.setState({ isEmpty: true });
-      else Notify.info(`We found ${total} images for you`);
 
       this.setState(({ pics }) => ({
         pics: [...pics, ...hits],
@@ -68,7 +67,6 @@ export class App extends Component {
   onLoadMore = () => {
     this.setState(({ page }) => ({
       page: page + 1,
-      showSkeleton: true,
     }));
   };
 

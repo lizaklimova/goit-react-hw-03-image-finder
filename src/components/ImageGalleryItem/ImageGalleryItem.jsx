@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import Modal from '../Modal';
 import { GalleryPic, ImgCard } from './ImageGalleryItem.styled';
+import Skeleton from 'components/Skeleton/Skeleton';
 
 class ImageGalleryItem extends Component {
   state = {
@@ -14,6 +15,7 @@ class ImageGalleryItem extends Component {
   render() {
     const {
       image: { webformatURL, tags, largeImageURL },
+      skeleton,
     } = this.props;
 
     const { isModalShown } = this.state;
@@ -21,7 +23,7 @@ class ImageGalleryItem extends Component {
     return (
       <>
         <GalleryPic onClick={this.toggleModal}>
-          <ImgCard src={webformatURL} alt={tags} />
+          {skeleton ? <Skeleton /> : <ImgCard src={webformatURL} alt={tags} />}
         </GalleryPic>
         {isModalShown && (
           <Modal src={largeImageURL} alt={tags} onClose={this.toggleModal} />

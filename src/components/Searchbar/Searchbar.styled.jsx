@@ -17,13 +17,26 @@ export const Form = styled.form`
 `;
 
 export const Input = styled.input`
-  width: 400px;
+  width: 200px;
   padding: 12px 35px;
   border: none;
   border-radius: 20px;
   transition: outline 300ms ease-in-out;
   &:focus {
     outline: 2px solid black;
+  }
+
+  &:focus::placeholder {
+    font-size: 12px;
+    transition: font-size 300ms ease-in-out;
+  }
+
+  @media screen and (min-width: 450px) {
+    width: 300px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 400px;
   }
 `;
 

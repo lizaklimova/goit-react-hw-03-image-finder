@@ -5,7 +5,7 @@ import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
 import Button from '../Button';
 import Loader from '../Loader';
-import { Container } from './App.styled';
+import { Container, Message } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -16,10 +16,21 @@ export class App extends Component {
     isEmpty: false,
     isLoading: false,
     showLoadMore: false,
+    showSkeleton: false,
   };
 
   handleSearch = value => {
-    if (!value) Notify.warning('Please,enter sth');
+    if (!value) {
+      Notify.warning('Please,enter sth');
+
+      this.setState({
+        pics: [],
+        showLoadMore: false,
+      });
+
+      return;
+    }
+
     this.setState({
       value: value.trim(),
       page: 1,
@@ -36,11 +47,12 @@ export class App extends Component {
 
   getPicsBySearch = async (value, page) => {
     try {
-      this.setState({ isLoading: true });
+      this.setState({ isLoading: true, showSkeleton: true });
 
       const { hits, total } = await getImages(value, page);
 
       if (total === 0) this.setState({ isEmpty: true });
+      else Notify.info(`We found ${total} images for you`);
 
       this.setState(({ pics }) => ({
         pics: [...pics, ...hits],
@@ -49,27 +61,31 @@ export class App extends Component {
     } catch (error) {
       Notify.failure(error.message);
     } finally {
-      this.setState({ isLoading: false });
+      this.setState({ isLoading: false, showSkeleton: false });
     }
   };
 
   onLoadMore = () => {
     this.setState(({ page }) => ({
       page: page + 1,
+      showSkeleton: true,
     }));
   };
 
   render() {
-    const { pics, isEmpty, isLoading, showLoadMore } = this.state;
+    const { value, pics, isEmpty, isLoading, showLoadMore, showSkeleton } =
+      this.state;
 
     return (
       <Container>
         <Searchbar onSubmit={this.handleSearch} />
-        <ImageGallery pics={pics} />
+        <ImageGallery pics={pics} showSkeleton={showSkeleton} />
         {isLoading && <Loader />}
         {showLoadMore && <Button onLoadMore={this.onLoadMore} />}
 
-        {isEmpty && <div>Sorry there is no pics</div>}
+        {isEmpty && (
+          <Message>Sorry, there is no pics on query: {value}😢</Message>
+        )}
       </Container>
     );
   }

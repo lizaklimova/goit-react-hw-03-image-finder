@@ -16,12 +16,20 @@ export const ModalWindow = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #ffffff;
-  width: 600px;
-  height: 400px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 20px;
+  width: 87%;
+
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+  @media screen and (min-width: 457px) {
+    width: 90%;
+  }
 `;
 
 export const Picture = styled.img`
   display: block;
   width: 100%;
+  height: 100%;
+  border-radius: 20px;
 `;

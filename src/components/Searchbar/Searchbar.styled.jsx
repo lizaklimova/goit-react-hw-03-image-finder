@@ -9,6 +9,7 @@ export const Header = styled.header`
   background-color: #7da0b1;
   display: flex;
   justify-content: center;
+  z-index: 2;
 `;
 export const Form = styled.form`
   display: flex;
